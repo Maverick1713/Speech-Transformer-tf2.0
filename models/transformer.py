@@ -52,7 +52,7 @@ class Transformer(tf.keras.Model):
         inp = tf.cast(inputs[0],tf.float32)
         tar = tf.cast(inputs[1],tf.int32)
 
-        enc_output = self.encoder((inp, enc_padding_mask),training)  # (batch_size, inp_seq_len, d_model)
+           # (batch_size, inp_seq_len, d_model)
 
         # dec_output.shape == (batch_size, tar_seq_len, d_model)
         dec_output, attention_weights = self.decoder(

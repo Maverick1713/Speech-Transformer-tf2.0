@@ -78,8 +78,9 @@ def main():
         # enc_padding_mask, combined_mask, dec_padding_mask = create_masks(inp[:,:,0], tar_inp)
         combined_mask = create_combined_mask(tar=tar_inp)
         with tf.GradientTape() as tape:
-            predictions, _ = model(inp, tar_inp, True, None,
-                                   combined_mask, None)
+            predictions, _ = model(inp, tar_inp, training=True, enc_padding_mask=None, 
+                        look_ahead_mask=combined_mask, dec_padding_mask=None)
+
             # logger.info('config.train.label_smoothing_epsilon:' + str(config.train.label_smoothing_epsilon))
             loss = LableSmoothingLoss(tar_real, predictions,config.model.vocab_size,config.train.label_smoothing_epsilon)
         gradients = tape.gradient(loss, model.trainable_variables)
@@ -100,8 +101,8 @@ def main():
         logger.info('batch per epoch: ' + str(len(train_datafeeder)//train_datafeeder.batch_size))
         train_data = train_datafeeder.get_batch()
         start_time = time.time()
-        train_loss.reset_states()
-        train_accuracy.reset_states()
+        train_loss.reset_state()
+        train_accuracy.reset_state()
 
         for step in range(len(train_datafeeder)//train_datafeeder.batch_size):
             batch_data = next(train_data)

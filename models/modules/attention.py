@@ -127,7 +127,7 @@ class TwoD_Attention_layer(tf.keras.layers.Layer):
         self.bnq = tf.keras.layers.BatchNormalization()
         self.bnk = tf.keras.layers.BatchNormalization()
         self.bnv = tf.keras.layers.BatchNormalization()
-        self.ln = tf.keras.layers.experimental.LayerNormalization()
+        self.ln = tf.keras.layers.LayerNormalization()
 
         self.final_conv1 = tf.keras.layers.Conv2D(n, 3, 1, 'same', activation='relu',
                                                   kernel_initializer='glorot_normal')
